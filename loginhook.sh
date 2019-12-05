@@ -20,7 +20,16 @@ dirTemplate="/Library/.Management/mac_template_2019.tar"
 ### Functions
 
 homespaceCheck() {
-  # Set up environment for Admin and Alumni users with temporary local home directory
+
+  # Determine if user is excluded
+  file=$(defaults read /usr/local/outset/share/com.chilcote.outset.plist ignored_users)
+  if [[ "$file" =~ $username ]]; then
+    echo "true"
+  else
+    echo "false"
+  fi
+
+  # Set up environment for users with temporary local home directory
   if [[ $dirHome =~ /Users/ ]]; then
     #Remove NetworkHome link
     $suExec "/bin/chmod 700 $dirHome/Desktop"
